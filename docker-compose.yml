@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16.4
+    container_name: pulse_db_container
+    environment:
+      POSTGRES_USER: super_secret_user
+      POSTGRES_PASSWORD: super_secret_pasword
+      POSTGRES_DB: pulse_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
