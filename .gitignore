@@ -1,3 +1,4 @@
 /target
 .env
 test.http
+docker-script.sh

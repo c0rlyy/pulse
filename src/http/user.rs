@@ -8,12 +8,9 @@ use axum::{
     routing::{get, post},
     Router,
 };
-use sqlx::Postgres;
 
 use super::error::{ApiError, ResultExt};
 use super::ApiContext;
-
-type Pool = sqlx::Pool<Postgres>;
 
 pub fn router() -> Router {
     // By having each module responsible for setting up its own routing,

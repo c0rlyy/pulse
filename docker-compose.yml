@@ -3,13 +3,26 @@ services:
     image: postgres:16.4
     container_name: pulse_db_container
     environment:
-      POSTGRES_USER: super_secret_user
-      POSTGRES_PASSWORD: super_secret_pasword
+      POSTGRES_USER: secret_user
+      POSTGRES_PASSWORD: secret_password
       POSTGRES_DB: pulse_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
+  rust_app:
+    image: rust:1.80.1
+    container_name: rust_app_container
+    working_dir: /usr/src/app
+    command: cargo run
+    volumes:
+      - ./:/usr/src/app 
+    depends_on:
+      - postgres 
+    ports:
+      - "3000:3000" 
+
 volumes:
   postgres_data:
+
