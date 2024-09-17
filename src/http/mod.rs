@@ -1,16 +1,17 @@
-use std::{net::SocketAddr, sync::Arc};
+pub mod auth;
+pub mod error;
+pub mod extractors;
+pub mod user;
 
-use axum::{extract::FromRef, response::Html, Extension, Router};
+use std::sync::Arc;
+
+use axum::{response::Html, Extension, Router};
 use sqlx::PgPool;
 use tokio::net::TcpListener;
 use tower::ServiceBuilder;
 use tower_http::trace::TraceLayer;
 
-use crate::config::{self, Config};
-
-pub mod auth;
-pub mod error;
-pub mod user;
+use crate::config::Config;
 
 #[derive(Clone)]
 pub struct ApiContext {
@@ -26,7 +27,7 @@ impl ApiContext {
 }
 
 pub fn fallback404() -> Html<&'static str> {
-    Html("<h1>not found </h1>")
+    Html("<h1>Resource not found, if you're seeing blame frontend</h1>")
 }
 
 pub async fn serve(config: Config, db: PgPool) -> anyhow::Result<()> {
@@ -39,9 +40,15 @@ pub async fn serve(config: Config, db: PgPool) -> anyhow::Result<()> {
         )
         .fallback(fallback404());
 
-    // Define the socket address directly
-    let listener = TcpListener::bind("0.0.0.0:3000").await.unwrap();
-    tracing::debug!("listening on {}", listener.local_addr().unwrap());
+    // listening globally in order to be able to interact it trough our localhost when in docker
+    // let listener = TcpListener::bind("127.0.0.1:3000")
+    let listener = TcpListener::bind("0.0.0.0:3000")
+        .await
+        .expect("Could not bind to port");
+    tracing::debug!(
+        "listening on {}",
+        listener.local_addr().expect("This should not fail")
+    );
     axum::serve(listener, app).await.unwrap();
 
     Ok(())

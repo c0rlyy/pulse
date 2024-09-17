@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, sqlx::Type,Deserialize,Serialize)]
+#[derive(Debug, sqlx::Type, Deserialize, Serialize)]
 #[sqlx(type_name = "user_role")] // Maps to the PostgreSQL enum
 #[sqlx(rename_all = "UPPERCASE")] // Matches the uppercase format of PostgreSQL enum
 pub enum UserRole {
@@ -45,8 +45,8 @@ pub struct UserInfo {
 }
 
 #[derive(Debug, serde::Deserialize, Serialize, sqlx::FromRow)]
-pub struct TestUs {
-    pub id:i64,
-    pub password:String,
-    pub role:UserRole,
+pub struct BasicUserCreds {
+    pub id: i64,
+    pub password: String,
+    pub role: UserRole,
 }
