@@ -8,6 +8,7 @@ This project is a Rust-based backend meant to be a chat app built with Axum and 
 
 - **User Authentication**: Login and token management.
 - **User Management**: Retrieve user details.
+- **User Search**: Lets you find users by name, exludes private users  
 - **Error Handling**: Custom error responses for different scenarios.
 
 # Todo
@@ -78,75 +79,6 @@ docker-compose up -d
 ```
 
 This will build the Docker image and start the container.
-
-# API Endpoints
-
-## 1. Login
-
-**Endpoint:** `/api/login`  
-**Method:** `POST`
-
-**Request Body:**
-
-```json
-{
-  "client_id": "your_email@example.com",
-  "client_secret": "your_password"
-}
-```
-**response:**
-```json
-{
-  "access_token": "your_jwt_token",
-  "token_type": "Bearer"
-}
-```
-## 2. Get Current User
-
-**Endpoint:** `/api/users/me`  
-**Method:** `GET`
-
-**Headers:**
-
-```http
-Authorization: Bearer your_jwt_token
-```
-
-**response**
-```json
-{
-  "id": 1,
-  "username": "example_user",
-  "is_active": true,
-  "is_private": false,
-  "role": "USER"
-}
-```
-
-## 3. Create User
-
-**Endpoint:** `/api/users`  
-**Method:** `POST`
-
-**Request Body:**
-
-```json
-{
-  "username": "new_user",
-  "email": "new_user@example.com",
-  "password": "password123",
-  "is_private": false
-}
-```
-**response**
-```json
-{
-  "id": 1,
-  "username": "new_user",
-  "is_active": true,
-  "is_private": false
-}
-```
 # Database migrations
 To apply migariton defined in your migration folder run
 
@@ -155,3 +87,7 @@ To apply migariton defined in your migration folder run
 ```bash
 cargo sqlx migrate run
 ```
+
+# API Documentation
+
+For detailed API documentation, check out the [API documentation](./API.md).
