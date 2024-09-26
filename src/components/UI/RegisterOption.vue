@@ -4,6 +4,7 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 const router = useRouter();
 import SignButton from "../layout/SignButton.vue";
+import MessageCard from "../layout/MessageCard.vue";
 let inputPassword = ref("");
 let confirmPassword = ref("");
 const form = ref({
@@ -51,19 +52,35 @@ async function handleRegister() {
 // }
 </script>
 <template>
-  <section>
+  <section class="register-card">
     <p class="welcome-text welcome-nameapp">Pulse!</p>
     <form @submit.prevent="handleRegister">
       <label>Login</label>
-      <input v-model="form.username" />
+      <!-- <input v-model="form.username" /> -->
+      <MessageCard v-model="form.username" />
       <label>Email</label>
-      <input v-model="form.email" />
+      <!-- <input v-model="form.email" /> -->
+      <MessageCard v-model="form.email" />
       <label>Password</label>
-      <input type="password" v-model="inputPassword" />
+      <!-- <input type="password" v-model="inputPassword" /> -->
+      <MessageCard type="password" v-model="inputPassword" />
       <label>Confirm Password</label>
-      <input type="password" v-model="confirmPassword" />
+      <!-- <input type="password" v-model="confirmPassword" /> -->
+      <MessageCard type="password" v-model="confirmPassword" />
       <SignButton type="submit">Register!</SignButton>
     </form>
     <SignButton @click="$router.push({ name: 'welcome' })">Choose Another Option</SignButton>
   </section>
 </template>
+
+<style scoped>
+.register-card {
+  /* padding: 30px; */
+}
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+}
+</style>
